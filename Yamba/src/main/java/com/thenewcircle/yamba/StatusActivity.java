@@ -1,22 +1,25 @@
 package com.thenewcircle.yamba;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClientException;
 
 public class StatusActivity extends Activity {
     public static final int MAX_CHARS = 170;
+    private static final String TAG = "Yamba." + StatusActivity.class.getSimpleName();
     private EditText editStatus;
     private TextView charsRemaining;
     private MenuItem submitItem;
+    private YambaClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +72,29 @@ public class StatusActivity extends Activity {
         int id = item.getItemId();
         switch(id) {
             case R.id.submit:
+                Runnable cmd = new Runnable() {
+                    @Override
+                    public void run() {
+                        postStatus();
+                    }
+                };
+                new Thread(cmd).start();
                 return true;
             case R.id.action_settings:
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void postStatus() {
+        client = new YambaClient("student", "password");
+        String status = editStatus.getText().toString();
+        try {
+            Log.d(TAG, "posting: " + status);
+            client.postStatus(status);
+        } catch (YambaClientException e) {
+            Log.e(TAG, "Unable to post Status " + status, e);
+        }
     }
 
 }
