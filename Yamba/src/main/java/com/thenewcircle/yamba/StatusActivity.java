@@ -16,7 +16,7 @@ public class StatusActivity extends Activity {
     public static final int MAX_CHARS = 170;
     private EditText editStatus;
     private TextView charsRemaining;
-    private Button buttonSubmit;
+    private MenuItem submitItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,6 @@ public class StatusActivity extends Activity {
         setContentView(R.layout.activity_status);
         editStatus = (EditText) findViewById(R.id.editStatus);
         charsRemaining = (TextView) findViewById(R.id.textCharsRemaining);
-        buttonSubmit = (Button) findViewById(R.id.buttonSubmit);
 
         editStatus.addTextChangedListener(new TextWatcher() {
             @Override
@@ -41,8 +40,8 @@ public class StatusActivity extends Activity {
                 else {
                     charsRemaining.setTextColor(getResources().getColor(R.color.normal));
                 }
-                buttonSubmit.setEnabled(numLeft > -1);
                 charsRemaining.setText(numLeft + "");
+                submitItem.setEnabled(s.length() > 0 && numLeft > -1);
             }
 
             @Override
@@ -58,6 +57,7 @@ public class StatusActivity extends Activity {
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.status, menu);
+        submitItem = menu.findItem(R.id.submit);
         return true;
     }
 
@@ -67,8 +67,11 @@ public class StatusActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.submit:
+                return true;
+            case R.id.action_settings:
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
