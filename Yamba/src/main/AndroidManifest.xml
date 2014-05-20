@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.thenewcircle.yamba.YambaPrefsActivity"
+            android:label="Preferences" />
+
         <service
             android:name="com.thenewcircle.yamba.StatusService"
             android:exported="false" >

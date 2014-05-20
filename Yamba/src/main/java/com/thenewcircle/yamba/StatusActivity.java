@@ -79,6 +79,8 @@ public class StatusActivity extends Activity {
                 editStatus.getText().clear();
                 return true;
             case R.id.action_settings:
+                Intent prefsIntent = new Intent(this, YambaPrefsActivity.class);
+                startActivity(prefsIntent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
