@@ -1,6 +1,7 @@
 package com.thenewcircle.yamba;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -72,13 +73,10 @@ public class StatusActivity extends Activity {
         int id = item.getItemId();
         switch(id) {
             case R.id.submit:
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        postStatus();
-                    }
-                };
-                new Thread(cmd).start();
+                Intent statusIntent = new Intent(this, StatusService.class);
+                statusIntent.putExtra(StatusService.STATUS, editStatus.getText().toString());
+                startService(statusIntent);
+                editStatus.getText().clear();
                 return true;
             case R.id.action_settings:
                 return true;
@@ -86,15 +84,5 @@ public class StatusActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void postStatus() {
-        client = new YambaClient("student", "password");
-        String status = editStatus.getText().toString();
-        try {
-            Log.d(TAG, "posting: " + status);
-            client.postStatus(status);
-        } catch (YambaClientException e) {
-            Log.e(TAG, "Unable to post Status " + status, e);
-        }
-    }
 
 }
