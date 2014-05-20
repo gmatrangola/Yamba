@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <EditTextPreference android:id="@+id/userName"
+    <EditTextPreference android:key="@+id/userName"
         android:title="User Name" />
-    <EditTextPreference android:id="@+id/password"
+    <EditTextPreference android:key="@+id/password"
         android:password="true"
         android:title="Password"/>
 </PreferenceScreen>
