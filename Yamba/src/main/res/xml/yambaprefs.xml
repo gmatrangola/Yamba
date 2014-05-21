@@ -8,4 +8,14 @@
         android:password="true"
         android:title="Password"
         android:defaultValue="password"/>
+
+    <PreferenceCategory android:title="Performance">
+        <ListPreference android:title="Update Interval"
+            android:key="interval"
+            android:defaultValue="0"
+            android:entries="@array/intervals"
+            android:entryValues="@array/intervalValues"
+            />
+    </PreferenceCategory>
+
 </PreferenceScreen>
