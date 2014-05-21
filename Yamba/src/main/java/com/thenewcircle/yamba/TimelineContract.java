@@ -16,6 +16,12 @@ public class TimelineContract {
 
     public static class Columns {
         // TODO put constants for column names here
+        public static final String ID = "_id";
+        public static final String MESSAGE = "message";
+        public static final String TIME_CREATED = "time_created";
+        public static final String USER = "user";
+        public static final String LAT = "lat";
+        public static final String LON = "lon";
         private Columns() {
 
         }

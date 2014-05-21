@@ -1,6 +1,8 @@
 package com.thenewcircle.yamba;
 
 import android.app.IntentService;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -12,6 +14,7 @@ import com.marakana.android.yamba.clientlib.YambaClientException;
 import java.util.Date;
 import java.util.List;
 
+import static com.thenewcircle.yamba.TimelineContract.Columns.*;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -35,6 +38,8 @@ public class TimelineService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent");
         List<YambaClient.Status> timeline = null;
+        final ContentValues values = new ContentValues();
+        final ContentResolver resolver  = getContentResolver();
         try {
             YambaClient client = ((YambaApp)getApplication()).getClient();
             client.fetchFriendsTimeline(new YambaClient.TimelineProcessor() {
@@ -56,6 +61,11 @@ public class TimelineService extends IntentService {
                 @Override
                 public void onTimelineStatus(long id, Date createdAt, String user, String msg) {
                     Log.d(TAG, "onTimelineStatus " + user + ": " + msg);
+                    values.put(ID, id);
+                    values.put(TIME_CREATED, createdAt.getTime());
+                    values.put(USER, user);
+                    values.put(MESSAGE, msg);
+                    resolver.insert(TimelineContract.CONTENT_URI, values);
                 }
             });
         } catch (YambaClientException e) {

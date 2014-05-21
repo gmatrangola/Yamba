@@ -82,6 +82,10 @@ public class StatusActivity extends Activity {
                 Intent prefsIntent = new Intent(this, YambaPrefsActivity.class);
                 startActivity(prefsIntent);
                 return true;
+            case R.id.refresh:
+                Intent refresh = new Intent(this, TimelineService.class);
+                startService(refresh);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

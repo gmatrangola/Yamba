@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 public class TimelineProvider extends ContentProvider {
 
@@ -19,6 +20,8 @@ public class TimelineProvider extends ContentProvider {
         URI_MATCHER.addURI(TimelineContract.AUTHORITY, TimelineContract.PATH.substring(1)
          + "/#", STATUS_DIR);
     }
+
+    private static final String TAG = "Yamba." + TimelineProvider.class.getSimpleName();
 
     public TimelineProvider() {
     }
@@ -38,8 +41,8 @@ public class TimelineProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // TODO: Implement this to handle requests to insert a new row.
-        throw new UnsupportedOperationException("Not yet implemented");
+        Log.d(TAG, "insert " + uri + " values: " + values);
+        return uri;
     }
 
     @Override
