@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -40,6 +41,10 @@ public class TimelineService extends IntentService {
         List<YambaClient.Status> timeline = null;
         final ContentValues values = new ContentValues();
         final ContentResolver resolver  = getContentResolver();
+
+        Cursor c = resolver.query(TimelineContract.CONTENT_URI, TimelineContract.MAX_TIME_CREATED, null, null, null);
+        final long maxTime = c.moveToFirst()?c.getLong(0): Long.MIN_VALUE;
+
         try {
             YambaClient client = ((YambaApp)getApplication()).getClient();
             client.fetchFriendsTimeline(new YambaClient.TimelineProcessor() {
@@ -62,10 +67,16 @@ public class TimelineService extends IntentService {
                 public void onTimelineStatus(long id, Date createdAt, String user, String msg) {
                     Log.d(TAG, "onTimelineStatus " + user + ": " + msg);
                     values.put(ID, id);
-                    values.put(TIME_CREATED, createdAt.getTime());
-                    values.put(USER, user);
-                    values.put(MESSAGE, msg);
-                    resolver.insert(TimelineContract.CONTENT_URI, values);
+                    long time = createdAt.getTime();
+                    if(time > maxTime) {
+                        values.put(TIME_CREATED, time);
+                        values.put(USER, user);
+                        values.put(MESSAGE, msg);
+                        resolver.insert(TimelineContract.CONTENT_URI, values);
+                    }
+                    else {
+                        Log.d(TAG, id + " already inserted");
+                    }
                 }
             });
         } catch (YambaClientException e) {
