@@ -2,7 +2,7 @@
 <resources>
     <string-array name="intervals">
         <item>None</item>
-        <item>Every Finfteen minutes</item>
+        <item>Every Fifteen minutes</item>
         <item>Every Half Hour</item>
         <item>Every Hour</item>
         <item>Every 12 Hours</item>

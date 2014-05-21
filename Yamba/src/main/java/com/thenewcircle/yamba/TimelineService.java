@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class TimelineService extends IntentService {
     private static final String TAG = "Yamba." + TimelineService.class.getSimpleName();
-    private YambaClient client;
 
     public TimelineService() {
         super("TimelineService");
@@ -30,11 +29,6 @@ public class TimelineService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String userName = prefs.getString("userName", "student");
-        String password = prefs.getString("password", "password");
-        client = new YambaClient(userName, password);
-
     }
 
     @Override
@@ -42,6 +36,7 @@ public class TimelineService extends IntentService {
         Log.d(TAG, "onHandleIntent");
         List<YambaClient.Status> timeline = null;
         try {
+            YambaClient client = ((YambaApp)getApplication()).getClient();
             client.fetchFriendsTimeline(new YambaClient.TimelineProcessor() {
                 @Override
                 public boolean isRunnable() {

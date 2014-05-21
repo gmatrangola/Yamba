@@ -22,7 +22,6 @@ public class StatusService extends IntentService {
     private static final String TAG = "Yamba." + StatusService.class.getSimpleName();
     public static final int ID = 100;
     public static final String STATUS = "status";
-    private YambaClient client;
 
     public StatusService() {
         super("StatusService");
@@ -31,10 +30,6 @@ public class StatusService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String userName = prefs.getString("userName", "student");
-        String password = prefs.getString("password", "password");
-        client = new YambaClient(userName, password);
 
         Log.d(TAG, "onCreate()");
     }
@@ -54,6 +49,7 @@ public class StatusService extends IntentService {
         builder.setSmallIcon(R.drawable.ic_launcher);
         builder.setContentText(status);
         try {
+            YambaClient client = ((YambaApp)getApplication()).getClient();
             client.postStatus(status);
             builder.setContentTitle("Posted");
         } catch (YambaClientException e) {
