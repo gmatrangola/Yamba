@@ -20,7 +20,6 @@ public class StatusActivity extends Activity {
     private EditText editStatus;
     private TextView charsRemaining;
     private MenuItem submitItem;
-    private YambaClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
