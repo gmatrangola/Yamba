@@ -5,6 +5,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
+        android:name="com.thenewcircle.yamba.YambaApp"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -16,12 +17,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.thenewcircle.yamba.YambaPrefsActivity"
+        <activity
+            android:name="com.thenewcircle.yamba.YambaPrefsActivity"
             android:label="Preferences" />
 
         <service
             android:name="com.thenewcircle.yamba.StatusService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name="com.thenewcircle.yamba.TimelineService"
             android:exported="false" >
         </service>
     </application>
