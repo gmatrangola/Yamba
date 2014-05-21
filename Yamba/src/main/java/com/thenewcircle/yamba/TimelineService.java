@@ -9,6 +9,7 @@ import android.util.Log;
 import com.marakana.android.yamba.clientlib.YambaClient;
 import com.marakana.android.yamba.clientlib.YambaClientException;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -41,11 +42,27 @@ public class TimelineService extends IntentService {
         Log.d(TAG, "onHandleIntent");
         List<YambaClient.Status> timeline = null;
         try {
-            timeline = client.getTimeline(10);
-            Log.d(TAG, "timeline: " + timeline.size());
-            for( YambaClient.Status status : timeline) {
-                Log.d(TAG, "status " + status.getMessage());
-            }
+            client.fetchFriendsTimeline(new YambaClient.TimelineProcessor() {
+                @Override
+                public boolean isRunnable() {
+                    return true;
+                }
+
+                @Override
+                public void onStartProcessingTimeline() {
+                    Log.d(TAG, "onStartProcessingTimeline");
+                }
+
+                @Override
+                public void onEndProcessingTimeline() {
+                    Log.d(TAG, "onEndProcessingTimeline");
+                }
+
+                @Override
+                public void onTimelineStatus(long id, Date createdAt, String user, String msg) {
+                    Log.d(TAG, "onTimelineStatus " + user + ": " + msg);
+                }
+            });
         } catch (YambaClientException e) {
             Log.e(TAG, "Unable to get Timeline: " + e.getMessage(), e);
         }
