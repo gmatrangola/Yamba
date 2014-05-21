@@ -2,10 +2,24 @@ package com.thenewcircle.yamba;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
 public class TimelineProvider extends ContentProvider {
+
+    private static final int STATUS_DIR = 1;
+    private static final int STATUS_ITEM = 2;
+
+    private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
+
+    static {
+        URI_MATCHER.addURI(TimelineContract.AUTHORITY, TimelineContract.PATH.substring(1),
+                STATUS_DIR);
+        URI_MATCHER.addURI(TimelineContract.AUTHORITY, TimelineContract.PATH.substring(1)
+         + "/#", STATUS_DIR);
+    }
+
     public TimelineProvider() {
     }
 
