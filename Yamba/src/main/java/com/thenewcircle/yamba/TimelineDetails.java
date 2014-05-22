@@ -27,6 +27,7 @@ public class TimelineDetails extends Fragment {
     private TextView textUser;
     private TextView textStatus;
     private TextView textTime;
+    private Long id = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +42,17 @@ public class TimelineDetails extends Fragment {
 
     public void updateView(Long id) {
         Log.d(TAG, "updateView " + id);
+        this.id = id;
+        if(getActivity() != null) showDetails();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(id != null) showDetails();
+    }
+
+    private void showDetails() {
         Uri uri = ContentUris.withAppendedId(TimelineContract.CONTENT_URI, id);
         Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
 

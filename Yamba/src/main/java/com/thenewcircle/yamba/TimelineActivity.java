@@ -1,6 +1,7 @@
 package com.thenewcircle.yamba;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -51,9 +52,19 @@ public class TimelineActivity extends Activity implements TimelineFragment.Displ
 
     @Override
     public void showDetails(Long id) {
-        TimelineDetails details = (TimelineDetails) getFragmentManager().findFragmentByTag("details");
+        FragmentManager fragmentManager = getFragmentManager();
+        TimelineDetails details = (TimelineDetails) fragmentManager.findFragmentByTag("details");
         if(details != null && details.isVisible()) {
             details.updateView(id);
         }
+        else {
+            FragmentTransaction tx = fragmentManager.beginTransaction();
+            TimelineDetails timelineDetails = new TimelineDetails();
+            tx.replace(R.id.list_fragment_container, timelineDetails);
+            tx.addToBackStack("Details");
+            tx.commit();
+            timelineDetails.updateView(id);
+        }
+
     }
 }
