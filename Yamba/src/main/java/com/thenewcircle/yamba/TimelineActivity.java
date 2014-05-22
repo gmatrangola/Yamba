@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 /**
  * Created by geoff on 5/22/14.
  */
-public class TimelineActivity extends Activity {
+public class TimelineActivity extends Activity implements TimelineFragment.DisplayDetails {
     private FrameLayout detailsContainer;
 
     @Override
@@ -47,5 +47,13 @@ public class TimelineActivity extends Activity {
             startActivity(statusIntent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showDetails(Long id) {
+        TimelineDetails details = (TimelineDetails) getFragmentManager().findFragmentByTag("details");
+        if(details != null && details.isVisible()) {
+            details.updateView(id);
+        }
     }
 }

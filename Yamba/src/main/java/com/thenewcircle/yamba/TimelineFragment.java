@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -25,6 +26,10 @@ import static com.thenewcircle.yamba.TimelineContract.Columns.*;
  */
 public class TimelineFragment extends ListFragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    public interface  DisplayDetails {
+        public void showDetails(Long id);
+    }
 
     public static String[] FROM = {MESSAGE,         USER,          TIME_CREATED };
     public static int[] TO      = {R.id.textStatus, R.id.textUser, R.id.textTimeCreated};
@@ -63,6 +68,15 @@ public class TimelineFragment extends ListFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_timeline, container, false);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        if(getActivity() instanceof DisplayDetails) {
+            DisplayDetails displayDetails = (DisplayDetails) getActivity();
+            displayDetails.showDetails(id);
+        }
+        super.onListItemClick(l, v, position, id);
     }
 
     @Override
