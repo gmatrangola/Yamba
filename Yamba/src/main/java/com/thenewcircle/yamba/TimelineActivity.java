@@ -86,6 +86,7 @@ public class TimelineActivity extends Activity implements TimelineFragment.Displ
             tx.replace(R.id.fragment_container, timelineDetails);
             tx.addToBackStack("Details");
             tx.commit();
+
             timelineDetails.updateView(id);
         }
 

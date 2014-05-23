@@ -22,6 +22,8 @@ public class StatusService extends IntentService {
     private static final String TAG = "Yamba." + StatusService.class.getSimpleName();
     public static final int ID = 100;
     public static final String STATUS = "status";
+    public static String LAT = "lat";
+    public static String LON = "lon";
 
     public StatusService() {
         super("StatusService");
@@ -39,18 +41,26 @@ public class StatusService extends IntentService {
         Log.d(TAG, "onHandleIntent");
         if (intent != null) {
             String status = intent.getStringExtra(STATUS);
-            postStatus(status);
+            if(intent.hasExtra(LAT)) {
+                postStatus(status, intent.getDoubleExtra(LAT, 0), intent.getDoubleExtra(LON, 0));
+            }
+            postStatus(status, null, null);
         }
     }
 
-    private void postStatus(String status) {
+    private void postStatus(String status, Double lat, Double lon) {
         Log.d(TAG, "posting: " + status);
         Notification.Builder builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_launcher);
         builder.setContentText(status);
         try {
             YambaClient client = ((YambaApp)getApplication()).getClient();
-            client.postStatus(status);
+            if(lat == null) {
+                client.postStatus(status);
+            }
+            else {
+                client.postStatus(status, lat, lon);
+            }
             builder.setContentTitle("Posted");
         } catch (YambaClientException e) {
             Log.e(TAG, "Unable to post Status " + status, e);
