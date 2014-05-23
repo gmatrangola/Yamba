@@ -6,14 +6,4 @@
         android:title="@string/submit"
         android:icon="@android:drawable/ic_menu_send"
         android:showAsAction="always" />
-
-    <item android:id="@+id/refresh"
-        android:title="Refresh"
-        android:icon="@android:drawable/ic_menu_more"
-        android:showAsAction="always"/>
-
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
 </menu>

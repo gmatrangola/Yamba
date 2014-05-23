@@ -32,12 +32,11 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener  {
 		Log.d(TAG, "onTabSelected " + tab.getText());
 		if(this.fragment == null) {
 			fragment = Fragment.instantiate(activity, clazz.getName());
-			// ft.add(R.id.fragment_container, fragment, tag);
+			ft.add(R.id.fragment_container, fragment, tag);
 		}
 		else {
 			ft.attach(fragment);
 		}
-		
 	}
 
 	@Override
