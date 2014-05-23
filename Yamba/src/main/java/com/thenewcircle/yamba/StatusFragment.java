@@ -85,6 +85,13 @@ public class StatusFragment extends Fragment implements LocationListener{
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager.removeUpdates(this);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.status, menu);

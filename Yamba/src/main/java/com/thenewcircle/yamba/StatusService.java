@@ -44,7 +44,9 @@ public class StatusService extends IntentService {
             if(intent.hasExtra(LAT)) {
                 postStatus(status, intent.getDoubleExtra(LAT, 0), intent.getDoubleExtra(LON, 0));
             }
-            postStatus(status, null, null);
+            else {
+                postStatus(status, null, null);
+            }
         }
     }
 
